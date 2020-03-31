@@ -9,14 +9,12 @@ export function sanitizeString(stop) {
   return resultString;
 }
 
-export function getBadgeColor(value, total) {
-    const percentage = (value / total) * 100;
-    let color;
+export function getBadgeColor(value) {
 
-    if(percentage <= 20) {
+    if(value <= 3) {
         color = "danger";
     }
-    else if(percentage > 20 && percentage <= 60) {
+    else if(value > 3 && value <= 8) {
         color = "warning";
     }
     else {

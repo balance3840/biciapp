@@ -69,24 +69,21 @@ class StopsScreen extends Component {
                     style={{ marginTop: 10 }}
                     warning={
                       getBadgeColor(
-                        stop.properties.available,
-                        stop.properties.total
+                        stop.properties.available
                       ) === "warning"
                         ? true
                         : false
                     }
                     success={
                       getBadgeColor(
-                        stop.properties.available,
-                        stop.properties.total
+                        stop.properties.available
                       ) === "success"
                         ? true
                         : false
                     }
                     danger={
                       getBadgeColor(
-                        stop.properties.available,
-                        stop.properties.total
+                        stop.properties.available
                       ) === "danger"
                         ? true
                         : false
@@ -106,24 +103,21 @@ class StopsScreen extends Component {
                   <Badge
                     warning={
                       getBadgeColor(
-                        stop.properties.free,
-                        stop.properties.total
+                        stop.properties.free
                       ) === "warning"
                         ? true
                         : false
                     }
                     success={
                       getBadgeColor(
-                        stop.properties.free,
-                        stop.properties.total
+                        stop.properties.free
                       ) === "success"
                         ? true
                         : false
                     }
                     danger={
                       getBadgeColor(
-                        stop.properties.free,
-                        stop.properties.total
+                        stop.properties.free
                       ) === "danger"
                         ? true
                         : false
