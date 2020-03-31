@@ -3,8 +3,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/guests/Login";
 import HomeScreen from "./screens/users/Home";
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Share } from "react-native";
 import { AppLoading } from "expo";
+import StopsScreen from "./screens/users/Stops";
+import StopScreen from "./screens/users/Stop";
+import { Icon } from "native-base";
+import { sanitizeString } from "./helpers";
 
 const Stack = createStackNavigator();
 
@@ -28,60 +32,88 @@ export default class App extends Component {
     };
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     try {
       const value = await AsyncStorage.getItem("username");
-      if(value) {
+      if (value) {
         this.setState({ authenticated: true });
       }
-    } catch (error) {
-      ;
-    }
-    this.setState({ isReady: true })
+    } catch (error) {}
+    this.setState({ isReady: true });
+  }
+
+  async onSharePressed() {
+    let stop = await AsyncStorage.getItem("currentStop");
+    stop = JSON.parse(stop);
+    const name = sanitizeString(stop.properties.name);
+    const message = `Estoy visualizando la parada ${name} en la aplicación GoBici. http://www.valenbisi.es/`;
+    await Share.share({
+      message: message,
+      title: name,
+      url: "http://www.valenbisi.es/"
+    })
+
   }
 
   renderRouter() {
     const { authenticated } = this.state;
     return (
       <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={screenOptions}
-        initialRouteName={authenticated ? "Home" : "Login"}
-      >
-        <Stack.Screen
-          name="Login"
-          options={{
-            title: "Login",
-            header: () => {}
-          }}
-          screenOptions={{ headerShown: false }}
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name="Home"
-          options={
-            { 
+        <Stack.Navigator
+          screenOptions={screenOptions}
+          initialRouteName={authenticated ? "Home" : "Login"}
+        >
+          <Stack.Screen
+            name="Login"
+            options={{
+              title: "Login",
+              header: () => {}
+            }}
+            screenOptions={{ headerShown: false }}
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            name="Home"
+            options={{
               title: "Bici app",
-              headerLeft: null 
-            }
-          }
-          component={HomeScreen}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-    )
+              headerLeft: null
+            }}
+            component={HomeScreen}
+          />
+          <Stack.Screen
+            name="Stops"
+            options={{
+              title: "Listado de paradas"
+            }}
+            component={StopsScreen}
+          />
+          <Stack.Screen
+            name="Stop"
+            test="Test"
+            options={{
+              title: "Detalle de parada",
+              headerRight: () => (
+                <Icon
+                  active
+                  style={{ color: "#ffffff", marginRight: 10 }}
+                  onPress={this.onSharePressed}
+                  name="share"
+                />
+              )
+            }}
+            component={StopScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
 
   renderLoading() {
-    return (
-      <AppLoading />
-    )
+    return <AppLoading />;
   }
 
   render() {
     const { isReady } = this.state;
-    return (
-      isReady ? this.renderRouter() : this.renderLoading()
-    )
+    return isReady ? this.renderRouter() : this.renderLoading();
   }
 }
