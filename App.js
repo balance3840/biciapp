@@ -49,7 +49,7 @@ export default class App extends Component {
     const message = `Estoy visualizando la parada ${name} en la aplicación GoBici. http://www.valenbisi.es/`;
     await Share.share({
       message: message,
-      title: name,
+      title: message,
       url: "http://www.valenbisi.es/"
     })
 

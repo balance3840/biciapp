@@ -44,6 +44,12 @@ class StopScreen extends Component {
               <Text>Disponibles</Text>
             </ListItem>
             <ListItem>
+              <Text>{stop.properties.available}</Text>
+            </ListItem>
+            <ListItem itemDivider>
+              <Text>Huecos</Text>
+            </ListItem>
+            <ListItem>
               <Text>{stop.properties.free}</Text>
             </ListItem>
             <ListItem itemDivider>
