@@ -9,8 +9,10 @@ import {
   Icon,
   Badge
 } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
+import { sanitizeString, getBadgeColor } from "../../helpers";
 
 class StopsScreen extends Component {
   constructor(props) {
@@ -34,34 +36,28 @@ class StopsScreen extends Component {
       });
   }
 
-  sanitizeString(stop) {
-    const parts = stop.split("_");
-    let resultString = "";
-    parts.map((part, index) => {
-      if (index > 0) {
-        resultString += `${part} `;
-      }
-    });
-    return resultString;
-  }
-
   async gotoDetail(stop) {
-      const { navigation } = this.props;
-      await AsyncStorage.setItem("currentStop", JSON.stringify(stop));
-      navigation.navigate("Stop", { stop: stop });
+    const { navigation } = this.props;
+    await AsyncStorage.setItem("currentStop", JSON.stringify(stop));
+    navigation.navigate("Stop", {
+      stop: stop,
+      title: sanitizeString(stop.properties.name)
+    });
   }
 
   render() {
     const { stops } = this.state;
-    const { navigation } = this.props;
     return (
       <Container>
         <Content>
           {stops &&
             stops.features.map(stop => (
-              <Card onTouchEnd={() => this.gotoDetail(stop)} key={stop.properties.number}>
+              <Card
+                onTouchEnd={() => this.gotoDetail(stop)}
+                key={stop.properties.number}
+              >
                 <CardItem header>
-                  <Text>{this.sanitizeString(stop.properties.name)}</Text>
+                  <Text>{sanitizeString(stop.properties.name)}</Text>
                 </CardItem>
                 <CardItem>
                   <Icon
@@ -69,10 +65,72 @@ class StopsScreen extends Component {
                     style={{ color: "#5e92f3", marginTop: 10 }}
                     name="bicycle"
                   />
-                  <Badge style={{ marginTop: 10, marginLeft: 5 }}>
-                    <Text>
-                      {stop.properties.free}/{stop.properties.total}
-                    </Text>
+                  <Badge
+                    style={{ marginTop: 10 }}
+                    warning={
+                      getBadgeColor(
+                        stop.properties.available,
+                        stop.properties.total
+                      ) === "warning"
+                        ? true
+                        : false
+                    }
+                    success={
+                      getBadgeColor(
+                        stop.properties.available,
+                        stop.properties.total
+                      ) === "success"
+                        ? true
+                        : false
+                    }
+                    danger={
+                      getBadgeColor(
+                        stop.properties.available,
+                        stop.properties.total
+                      ) === "danger"
+                        ? true
+                        : false
+                    }
+                  >
+                    <Text>{stop.properties.available}</Text>
+                  </Badge>
+                  <MaterialIcons
+                    name="local-parking"
+                    style={{
+                      fontSize: 20,
+                      marginTop: 10,
+                      marginLeft: 20,
+                      color: "#5e92f3"
+                    }}
+                  />
+                  <Badge
+                    warning={
+                      getBadgeColor(
+                        stop.properties.free,
+                        stop.properties.total
+                      ) === "warning"
+                        ? true
+                        : false
+                    }
+                    success={
+                      getBadgeColor(
+                        stop.properties.free,
+                        stop.properties.total
+                      ) === "success"
+                        ? true
+                        : false
+                    }
+                    danger={
+                      getBadgeColor(
+                        stop.properties.free,
+                        stop.properties.total
+                      ) === "danger"
+                        ? true
+                        : false
+                    }
+                    style={{ marginTop: 10, marginLeft: 5 }}
+                  >
+                    <Text>{stop.properties.free}</Text>
                   </Badge>
                 </CardItem>
                 <CardItem footer>
