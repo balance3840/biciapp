@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+import { Button } from "native-base";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -11,6 +12,9 @@ class HomeScreen extends Component {
     return (
       <View>
         <Text>This is the HomeScreen!</Text>
+        <Button onPress={() => this.props.navigation.navigate("Stops")}>
+          <Text>Ver listado de paradas</Text>
+        </Button>
       </View>
     );
   }
