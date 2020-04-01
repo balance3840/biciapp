@@ -18,10 +18,6 @@ class StopScreen extends Component {
     return resultString;
   }
 
-  componentDidMount() {
-      console.log(this.props);
-  }
-
   render() {
     const { stop } = this.props.route.params;
     return (

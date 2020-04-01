@@ -28,7 +28,6 @@ class StopsScreen extends Component {
     axios
       .get("https://api.myjson.com/bins/167krs")
       .then(function(response) {
-        console.log(response.data);
         self.setState({ stops: response.data });
       })
       .catch(function(error) {
