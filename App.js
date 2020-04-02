@@ -9,6 +9,7 @@ import StopsScreen from "./screens/users/Stops";
 import StopScreen from "./screens/users/Stop";
 import { Icon } from "native-base";
 import { sanitizeString } from "./helpers";
+import NearestStops from "./screens/users/NearestStops";
 
 const Stack = createStackNavigator();
 
@@ -51,8 +52,7 @@ export default class App extends Component {
       message: message,
       title: message,
       url: "http://www.valenbisi.es/"
-    })
-
+    });
   }
 
   renderRouter() {
@@ -102,6 +102,14 @@ export default class App extends Component {
               )
             }}
             component={StopScreen}
+          />
+          <Stack.Screen
+            name="NearestStops"
+            test="Test"
+            options={{
+              title: "Paradas cercanas"
+            }}
+            component={NearestStops}
           />
         </Stack.Navigator>
       </NavigationContainer>

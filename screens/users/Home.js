@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Dimensions, AsyncStorage } from "react-native";
 import {
-  Container,
-  Content,
   Body,
   Card,
   CardItem,
@@ -244,7 +242,7 @@ class HomeScreen extends Component {
           {this.renderMarkers()}
         </MapView>
         {this.renderStop()}
-        <Button onPress={() => this.props.navigation.navigate("Stops")}>
+        <Button onPress={() => this.props.navigation.navigate("NearestStops")}>
           <Text>Ver listado de paradas</Text>
         </Button>
       </View>
