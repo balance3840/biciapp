@@ -27,8 +27,8 @@ class NearestStops extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getLocation();
+  async componentDidMount() {
+    await this.getLocation();
     this.getStops();
   }
 
