@@ -5513,6 +5513,11 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
+utm-latlng@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/utm-latlng/-/utm-latlng-1.0.6.tgz#8b0d750a11f50e7427c6cbf0cc73241ed6edbf0d"
+  integrity sha512-7mDyWVwmrt3HpfbIS5x11arkd+v6R/tkvd8ymQwfGG0gAJypq4HLvALJEBVtX1F3AicAjbNJ1MZd94GJkFsYaQ==
+
 uuid-js@^0.7.5:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/uuid-js/-/uuid-js-0.7.5.tgz#6c886d02a53d2d40dcf25d91a170b4a7b25b94d0"
