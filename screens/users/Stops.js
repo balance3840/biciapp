@@ -26,9 +26,9 @@ class StopsScreen extends Component {
   componentDidMount() {
     var self = this;
     axios
-      .get("https://api.myjson.com/bins/167krs")
+      .get("https://apunterd.com/paradas.json")
       .then(function(response) {
-        self.setState({ stops: response.data });
+        self.setState({ stops: response.data.features });
       })
       .catch(function(error) {
         console.log(error);
@@ -50,7 +50,7 @@ class StopsScreen extends Component {
       <Container>
         <Content>
           {stops &&
-            stops.features.map(stop => (
+            stops.map(stop => (
               <Card
                 onTouchEnd={() => this.gotoDetail(stop)}
                 key={stop.properties.number}
@@ -67,23 +67,17 @@ class StopsScreen extends Component {
                   <Badge
                     style={{ marginTop: 10 }}
                     warning={
-                      getBadgeColor(
-                        stop.properties.available
-                      ) === "warning"
+                      getBadgeColor(stop.properties.available) === "warning"
                         ? true
                         : false
                     }
                     success={
-                      getBadgeColor(
-                        stop.properties.available
-                      ) === "success"
+                      getBadgeColor(stop.properties.available) === "success"
                         ? true
                         : false
                     }
                     danger={
-                      getBadgeColor(
-                        stop.properties.available
-                      ) === "danger"
+                      getBadgeColor(stop.properties.available) === "danger"
                         ? true
                         : false
                     }
@@ -101,23 +95,17 @@ class StopsScreen extends Component {
                   />
                   <Badge
                     warning={
-                      getBadgeColor(
-                        stop.properties.free
-                      ) === "warning"
+                      getBadgeColor(stop.properties.free) === "warning"
                         ? true
                         : false
                     }
                     success={
-                      getBadgeColor(
-                        stop.properties.free
-                      ) === "success"
+                      getBadgeColor(stop.properties.free) === "success"
                         ? true
                         : false
                     }
                     danger={
-                      getBadgeColor(
-                        stop.properties.free
-                      ) === "danger"
+                      getBadgeColor(stop.properties.free) === "danger"
                         ? true
                         : false
                     }
