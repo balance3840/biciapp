@@ -10,6 +10,7 @@ import StopScreen from "./screens/users/Stop";
 import { Icon } from "native-base";
 import { sanitizeString } from "./helpers";
 import NearestStops from "./screens/users/NearestStops";
+import TabNavigator from "./navigators/TabNavigator";
 
 const Stack = createStackNavigator();
 
@@ -61,8 +62,15 @@ export default class App extends Component {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={screenOptions}
-          initialRouteName={authenticated ? "Home" : "Login"}
+          initialRouteName={authenticated ? "TabNavigator" : "Login"}
         >
+          <Stack.Screen
+            name="TabNavigator"
+            component={TabNavigator}
+            options={{
+              title: "Bici App"
+            }}
+          />
           <Stack.Screen
             name="Login"
             options={{
@@ -71,21 +79,6 @@ export default class App extends Component {
             }}
             screenOptions={{ headerShown: false }}
             component={LoginScreen}
-          />
-          <Stack.Screen
-            name="Home"
-            options={{
-              title: "Bici app",
-              headerLeft: null
-            }}
-            component={HomeScreen}
-          />
-          <Stack.Screen
-            name="Stops"
-            options={{
-              title: "Listado de paradas"
-            }}
-            component={StopsScreen}
           />
           <Stack.Screen
             name="Stop"
@@ -102,14 +95,6 @@ export default class App extends Component {
               )
             }}
             component={StopScreen}
-          />
-          <Stack.Screen
-            name="NearestStops"
-            test="Test"
-            options={{
-              title: "Paradas cercanas"
-            }}
-            component={NearestStops}
           />
         </Stack.Navigator>
       </NavigationContainer>

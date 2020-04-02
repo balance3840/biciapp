@@ -54,7 +54,7 @@ class HomeScreen extends Component {
   getStops = () => {
     var self = this;
     axios
-      .get("https://api.myjson.com/bins/167krs")
+      .get("https://apunterd.com/paradas.json")
       .then(function(response) {
         let stops = response.data.features;
         let utm = new utmObj();
@@ -135,7 +135,7 @@ class HomeScreen extends Component {
     const { currentStop, cardHeight } = this.state;
     return (
       <View
-        style={{ marginTop: -(cardHeight + 1.5) }}
+        style={{ marginTop: -(cardHeight + 6) }}
         onLayout={event => {
           const { height } = event.nativeEvent.layout;
           this.setState({ cardHeight: height });
@@ -145,7 +145,7 @@ class HomeScreen extends Component {
           <Card
             onTouchEnd={() => this.gotoDetail(currentStop)}
             key={currentStop.properties.number}
-            style={{ marginBottom: 0 }}
+            style={{ marginBottom: 0, marginLeft: 0, marginRight: 0 }}
           >
             <CardItem header>
               <Text>{sanitizeString(currentStop.properties.name)}</Text>
@@ -242,9 +242,6 @@ class HomeScreen extends Component {
           {this.renderMarkers()}
         </MapView>
         {this.renderStop()}
-        <Button onPress={() => this.props.navigation.navigate("NearestStops")}>
-          <Text>Ver listado de paradas</Text>
-        </Button>
       </View>
     );
   }

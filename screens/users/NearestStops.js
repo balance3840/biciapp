@@ -44,7 +44,7 @@ class NearestStops extends Component {
   getStops = () => {
     var self = this;
     axios
-      .get("https://api.myjson.com/bins/167krs")
+      .get("https://apunterd.com/paradas.json")
       .then(function(response) {
         let stops = response.data.features;
         let utm = new utmObj();
