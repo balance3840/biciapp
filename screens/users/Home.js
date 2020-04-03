@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Dimensions, AsyncStorage } from "react-native";
+import { View, Text, StyleSheet, Dimensions, AsyncStorage, Alert } from "react-native";
 import {
   Body,
   Card,
@@ -25,13 +25,28 @@ class HomeScreen extends Component {
       location: null,
       stops: null,
       cardHeight: 170,
-      currentStop: null
+      currentStop: null,
+      username: ''
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const username = await this.getUser();
+    this.showWelcomeMessage(username);
     this.getLocation();
     this.getStops();
+  }
+
+  getUser = async () => {
+    const username = await AsyncStorage.getItem("username");
+    if(username) {
+        this.setState({ username });
+    }
+    return username;
+}
+
+  showWelcomeMessage(username) {
+    Alert.alert("Bienvenido", `Hola ${username}, bienvenido a biciapp.`);
   }
 
   getLocation = async () => {
