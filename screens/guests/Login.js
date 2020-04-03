@@ -43,7 +43,7 @@ export default class LoginScreen extends Component {
 
   render() {
     const remote =
-      "https://lh3.googleusercontent.com/proxy/3q0N-grZ3OWyEafg8SvDuVNYDZBk24TuGFWW8mKdiXamJ7L_CRGS9lczC5opjHKv2PedpEgycRuLtUeJr6SfDfXDxmvRrKM_X1TMMe7GeXzUa9ZPXtzr6QvplvStrJhXcgZ0XWQXxwmJdg";
+      "https://images7.alphacoders.com/345/thumb-1920-345366.jpg";
     if (this.state.isReady) {
       return (
         <ImageBackground
