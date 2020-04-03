@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import { Container, Content, List, ListItem, Text } from "native-base";
+import { Container, Content, List, ListItem, Text, Button, Icon } from "native-base";
+import * as ImagePicker from 'expo-image-picker';
+import * as Sharing from 'expo-sharing';
 
 class StopScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      ready: true,
+      localUri: ''
+    };
   }
 
   sanitizeString(stop) {
@@ -18,7 +23,38 @@ class StopScreen extends Component {
     return resultString;
   }
 
-  render() {
+  renderLoading() {
+    return (
+      <Text>Cargando...</Text>
+    )
+  }
+
+  async openImagePickerAsync() {
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Se debe autorizar el uso de la galeria de imagenes");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    this.setState({ localUri: pickerResult.uri });
+
+    if (!(await Sharing.isAvailableAsync())) {
+      alert(`Esta funcionalidad no esta disponible en su plataforma`);
+      return;
+    }
+
+    Sharing.shareAsync(this.state.localUri);
+
+  }
+
+  renderContent() {
     const { stop } = this.props.route.params;
     return (
       <Container>
@@ -55,8 +91,19 @@ class StopScreen extends Component {
               <Text>{stop.properties.total}</Text>
             </ListItem>
           </List>
+          <Button iconLeft onPress={() => this.openImagePickerAsync()} style={{ marginTop: 30, marginHorizontal: 15, alignContent: "center", justifyContent: "center" }}>
+            <Icon name="camera" />
+            <Text>Compartir foto</Text>
+          </Button>
         </Content>
       </Container>
+    )
+  }
+
+  render() {
+    const { ready } = this.state;
+    return (
+      ready ? this.renderContent() : this.renderLoading()
     );
   }
 }
