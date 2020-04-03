@@ -70,7 +70,8 @@ export default class App extends Component {
             name="TabNavigator"
             component={TabNavigator}
             options={{
-              title: "Bici App"
+              title: "Bici App",
+              headerLeft: null
             }}
           />
           <Stack.Screen
