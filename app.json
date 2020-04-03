@@ -25,6 +25,14 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "es.uv.ramiro.estrella",
+        "config": {
+          "googleMaps": {
+            "apiKey": "AIzaSyDaToeqAe51XN6HHBP-A_xO0SbZypCh9I0"
+          }
+        }
     }
   }
 }
