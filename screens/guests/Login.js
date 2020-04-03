@@ -43,7 +43,7 @@ export default class LoginScreen extends Component {
 
   render() {
     const remote =
-      "https://images7.alphacoders.com/345/thumb-1920-345366.jpg";
+      "https://www.jakpost.travel/wimages/large/84-849185_baixar-wallpaper-bicicleta-bicicleta-freeride-papis-downhill-mountain.jpg";
     if (this.state.isReady) {
       return (
         <ImageBackground

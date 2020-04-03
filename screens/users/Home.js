@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Dimensions, AsyncStorage, Alert } from "react-native";
+import { View, Text, StyleSheet, Dimensions, AsyncStorage, Alert, BackHandler } from "react-native";
 import {
   Body,
   Card,
@@ -30,11 +30,20 @@ class HomeScreen extends Component {
     };
   }
 
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+  
   async componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
     const username = await this.getUser();
     this.showWelcomeMessage(username);
     this.getLocation();
     this.getStops();
+  }
+
+  onBackPress = () => {
+    return true;
   }
 
   getUser = async () => {
