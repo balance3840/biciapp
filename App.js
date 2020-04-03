@@ -2,15 +2,13 @@ import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/guests/Login";
-import HomeScreen from "./screens/users/Home";
 import { AsyncStorage, Share } from "react-native";
 import { AppLoading } from "expo";
-import StopsScreen from "./screens/users/Stops";
 import StopScreen from "./screens/users/Stop";
 import { Icon } from "native-base";
 import { sanitizeString } from "./helpers";
-import NearestStops from "./screens/users/NearestStops";
 import TabNavigator from "./navigators/TabNavigator";
+import * as Font from 'expo-font';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +38,11 @@ export default class App extends Component {
       if (value) {
         this.setState({ authenticated: true });
       }
-    } catch (error) {}
+      await Font.loadAsync({
+        Roboto: require("native-base/Fonts/Roboto.ttf"),
+        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+      });
+    } catch (error) { }
     this.setState({ isReady: true });
   }
 
@@ -75,7 +77,7 @@ export default class App extends Component {
             name="Login"
             options={{
               title: "Login",
-              header: () => {}
+              header: () => { }
             }}
             screenOptions={{ headerShown: false }}
             component={LoginScreen}
