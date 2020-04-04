@@ -35,10 +35,17 @@ export default class LoginScreen extends Component {
   async onLoginPressed() {
     try {
         await AsyncStorage.setItem('username', this.state.username);
-        this.props.navigation.navigate("TabNavigator");
+        this.resetRouter();
       } catch (error) {
           ;
       }
+  }
+
+  resetRouter() {
+    this.props.navigation.reset({
+      index: 0,
+      routes: [{ name: 'TabNavigator' }],
+    });
   }
 
   render() {

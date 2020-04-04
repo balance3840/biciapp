@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Dimensions, AsyncStorage, Alert, BackHandler } from "react-native";
+import { View, Text, StyleSheet, Dimensions, AsyncStorage, Alert } from "react-native";
 import {
   Body,
   Card,
@@ -7,7 +7,6 @@ import {
   Icon,
   Badge
 } from "native-base";
-import { Button } from "native-base";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
@@ -30,29 +29,20 @@ class HomeScreen extends Component {
     };
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-  }
-  
   async componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
     const username = await this.getUser();
     this.showWelcomeMessage(username);
     this.getLocation();
     this.getStops();
   }
 
-  onBackPress = () => {
-    return true;
-  }
-
   getUser = async () => {
     const username = await AsyncStorage.getItem("username");
-    if(username) {
-        this.setState({ username });
+    if (username) {
+      this.setState({ username });
     }
     return username;
-}
+  }
 
   showWelcomeMessage(username) {
     Alert.alert("Bienvenido", `Hola ${username}, bienvenido a biciapp.`);
@@ -79,7 +69,7 @@ class HomeScreen extends Component {
     var self = this;
     axios
       .get("https://apunterd.com/paradas.json")
-      .then(function(response) {
+      .then(function (response) {
         let stops = response.data.features;
         let utm = new utmObj();
         stops.map(stop => {
@@ -96,7 +86,7 @@ class HomeScreen extends Component {
         });
         self.setState({ stops });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
