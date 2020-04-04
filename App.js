@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, CommonActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/guests/Login";
-import { AsyncStorage, Share } from "react-native";
+import { AsyncStorage, Share, Alert } from "react-native";
 import { AppLoading } from "expo";
 import StopScreen from "./screens/users/Stop";
 import { Icon } from "native-base";
 import { sanitizeString } from "./helpers";
 import TabNavigator from "./navigators/TabNavigator";
 import * as Font from 'expo-font';
+import { navigationRef } from "./navigators/RootNavigation";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as RootNavigation from './navigators/RootNavigation';
 
 const Stack = createStackNavigator();
 
@@ -58,10 +61,37 @@ export default class App extends Component {
     });
   }
 
+
+  showLogoutAlert = () => {
+    Alert.alert(
+      'Cerrar sesión',
+      '¿Está seguro que desea cerrar sesión?',
+      [
+        { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
+        { text: 'Si, cerrar sesión', onPress: () => this.onLogout() },
+      ],
+      { cancelable: false }
+    )
+  }
+
+
+  onLogout = async () => {
+    await this.setState({ authenticated: false });
+    await AsyncStorage.removeItem("username");
+    const resetAction = CommonActions.reset({
+      index: 1,
+      routes: [
+        { name: 'Login' },
+      ],
+    })
+    RootNavigation.dispatch(resetAction);
+    await RootNavigation.navigate('Login');
+  }
+
   renderRouter() {
     const { authenticated } = this.state;
     return (
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator
           screenOptions={screenOptions}
           initialRouteName={authenticated ? "TabNavigator" : "Login"}
@@ -71,7 +101,14 @@ export default class App extends Component {
             component={TabNavigator}
             options={{
               title: "Bici App",
-              headerLeft: null
+              headerLeft: null,
+              headerRight: () => (
+                <MaterialCommunityIcons
+                  style={{ color: "#ffffff", marginRight: 10, fontSize: 25, marginTop: 5 }}
+                  onPress={this.showLogoutAlert}
+                  name="logout"
+                />
+              )
             }}
           />
           <Stack.Screen
