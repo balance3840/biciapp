@@ -44,7 +44,7 @@ class HomeScreen extends Component {
   }
 
   showWelcomeMessage(username) {
-    Alert.alert("Bienvenido", `Hola ${username}, bienvenido a biciapp.`);
+    Alert.alert("Bienvenido", `Hola ${username}, bienvenido a Go Bici.`);
   }
 
   getLocation = async () => {

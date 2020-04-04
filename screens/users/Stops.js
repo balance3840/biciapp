@@ -13,6 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import { AsyncStorage } from "react-native";
 import { sanitizeString, getBadgeColor } from "../../helpers";
+import Loading from "../../common/components/Loading";
 
 class StopsScreen extends Component {
   constructor(props) {
@@ -27,10 +28,10 @@ class StopsScreen extends Component {
     var self = this;
     axios
       .get("https://apunterd.com/paradas.json")
-      .then(function(response) {
+      .then(function (response) {
         self.setState({ stops: response.data.features });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -44,7 +45,13 @@ class StopsScreen extends Component {
     });
   }
 
-  render() {
+  renderLoading() {
+    return (
+      <Loading />
+    )
+  }
+
+  renderContent() {
     const { stops } = this.state;
     return (
       <Container>
@@ -123,6 +130,13 @@ class StopsScreen extends Component {
             ))}
         </Content>
       </Container>
+    )
+  }
+
+  render() {
+    const { stops } = this.state;
+    return (
+      stops ? this.renderContent() : this.renderLoading()
     );
   }
 }

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Blank Template",
-    "slug": "biciapp",
+    "name": "Go Bici",
+    "slug": "gobici",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [

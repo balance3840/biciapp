@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { NavigationContainer, CommonActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./screens/guests/Login";
-import { AsyncStorage, Share, Alert } from "react-native";
-import { AppLoading } from "expo";
+import { AsyncStorage, Share, Alert, View } from "react-native";
 import StopScreen from "./screens/users/Stop";
-import { Icon } from "native-base";
+import { Icon, Container, Content, Spinner } from "native-base";
 import { sanitizeString } from "./helpers";
 import TabNavigator from "./navigators/TabNavigator";
 import * as Font from 'expo-font';
 import { navigationRef } from "./navigators/RootNavigation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as RootNavigation from './navigators/RootNavigation';
+import Loading from "./common/components/Loading";
 
 const Stack = createStackNavigator();
 
@@ -100,7 +100,7 @@ export default class App extends Component {
             name="TabNavigator"
             component={TabNavigator}
             options={{
-              title: "Bici App",
+              title: "Go Bici",
               headerLeft: null,
               headerRight: () => (
                 <MaterialCommunityIcons
@@ -142,7 +142,9 @@ export default class App extends Component {
   }
 
   renderLoading() {
-    return <AppLoading />;
+    return (
+      <Loading />
+    )
   }
 
   render() {

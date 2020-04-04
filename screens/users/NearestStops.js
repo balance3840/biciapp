@@ -17,6 +17,7 @@ import utmObj from "utm-latlng";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import getDistance from "geolib/es/getDistance";
+import Loading from "../../common/components/Loading";
 
 class NearestStops extends Component {
   constructor(props) {
@@ -125,95 +126,108 @@ class NearestStops extends Component {
       }
   }
 
+  renderLoading() {
+    return (
+      <Loading />
+    )
+  }
+
+  renderContent() {
+    const { stops } = this.state;
+    return (
+    <Container>
+    <Content>
+      {stops &&
+        stops.map(stop => (
+          <Card
+            onTouchEnd={() => this.gotoDetail(stop)}
+            key={stop.properties.number}
+          >
+            <CardItem header>
+              <Text>{sanitizeString(stop.properties.name)}</Text>
+            </CardItem>
+            <CardItem>
+              <Icon
+                active
+                style={{ color: "#5e92f3", marginTop: 10 }}
+                name="bicycle"
+              />
+              <Badge
+                style={{ marginTop: 10 }}
+                warning={
+                  getBadgeColor(stop.properties.available) === "warning"
+                    ? true
+                    : false
+                }
+                success={
+                  getBadgeColor(stop.properties.available) === "success"
+                    ? true
+                    : false
+                }
+                danger={
+                  getBadgeColor(stop.properties.available) === "danger"
+                    ? true
+                    : false
+                }
+              >
+                <Text>{stop.properties.available}</Text>
+              </Badge>
+              <MaterialIcons
+                name="local-parking"
+                style={{
+                  fontSize: 20,
+                  marginTop: 10,
+                  marginLeft: 20,
+                  color: "#5e92f3"
+                }}
+              />
+              <Badge
+                warning={
+                  getBadgeColor(stop.properties.free) === "warning"
+                    ? true
+                    : false
+                }
+                success={
+                  getBadgeColor(stop.properties.free) === "success"
+                    ? true
+                    : false
+                }
+                danger={
+                  getBadgeColor(stop.properties.free) === "danger"
+                    ? true
+                    : false
+                }
+                style={{ marginTop: 10, marginLeft: 5 }}
+              >
+                <Text>{stop.properties.free}</Text>
+              </Badge>
+              <MaterialIcons
+                name="place"
+                style={{
+                  fontSize: 20,
+                  marginTop: 10,
+                  marginLeft: 20,
+                  color: "#5e92f3"
+                }}
+              />
+                <Text style={{ marginTop: 10 }}>{this.getDistanceUnit(stop.distance).distance} {this.getDistanceUnit(stop.distance).unit}</Text>
+            </CardItem>
+            <CardItem footer>
+              <Body>
+                <Text>{stop.properties.address}</Text>
+              </Body>
+            </CardItem>
+          </Card>
+        ))}
+    </Content>
+  </Container>
+    )
+}
+
   render() {
     const { stops } = this.state;
     return (
-      <Container>
-        <Content>
-          {stops &&
-            stops.map(stop => (
-              <Card
-                onTouchEnd={() => this.gotoDetail(stop)}
-                key={stop.properties.number}
-              >
-                <CardItem header>
-                  <Text>{sanitizeString(stop.properties.name)}</Text>
-                </CardItem>
-                <CardItem>
-                  <Icon
-                    active
-                    style={{ color: "#5e92f3", marginTop: 10 }}
-                    name="bicycle"
-                  />
-                  <Badge
-                    style={{ marginTop: 10 }}
-                    warning={
-                      getBadgeColor(stop.properties.available) === "warning"
-                        ? true
-                        : false
-                    }
-                    success={
-                      getBadgeColor(stop.properties.available) === "success"
-                        ? true
-                        : false
-                    }
-                    danger={
-                      getBadgeColor(stop.properties.available) === "danger"
-                        ? true
-                        : false
-                    }
-                  >
-                    <Text>{stop.properties.available}</Text>
-                  </Badge>
-                  <MaterialIcons
-                    name="local-parking"
-                    style={{
-                      fontSize: 20,
-                      marginTop: 10,
-                      marginLeft: 20,
-                      color: "#5e92f3"
-                    }}
-                  />
-                  <Badge
-                    warning={
-                      getBadgeColor(stop.properties.free) === "warning"
-                        ? true
-                        : false
-                    }
-                    success={
-                      getBadgeColor(stop.properties.free) === "success"
-                        ? true
-                        : false
-                    }
-                    danger={
-                      getBadgeColor(stop.properties.free) === "danger"
-                        ? true
-                        : false
-                    }
-                    style={{ marginTop: 10, marginLeft: 5 }}
-                  >
-                    <Text>{stop.properties.free}</Text>
-                  </Badge>
-                  <MaterialIcons
-                    name="place"
-                    style={{
-                      fontSize: 20,
-                      marginTop: 10,
-                      marginLeft: 20,
-                      color: "#5e92f3"
-                    }}
-                  />
-                    <Text style={{ marginTop: 10 }}>{this.getDistanceUnit(stop.distance).distance} {this.getDistanceUnit(stop.distance).unit}</Text>
-                </CardItem>
-                <CardItem footer>
-                  <Body>
-                    <Text>{stop.properties.address}</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-            ))}
-        </Content>
-      </Container>
+      stops ? this.renderContent() : this.renderLoading()
     );
   }
 }
