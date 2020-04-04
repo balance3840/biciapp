@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import logo from "../../assets/logo.png";
+import background from "../../assets/background.jpg";
 import { AsyncStorage } from 'react-native';
 
 export default class LoginScreen extends Component {
@@ -49,8 +50,6 @@ export default class LoginScreen extends Component {
   }
 
   render() {
-    const remote =
-      "https://www.jakpost.travel/wimages/large/84-849185_baixar-wallpaper-bicicleta-bicicleta-freeride-papis-downhill-mountain.jpg";
     if (this.state.isReady) {
       return (
         <ImageBackground
@@ -62,7 +61,7 @@ export default class LoginScreen extends Component {
             width: "100%",
             height: "100%"
           }}
-          source={{ uri: remote }}
+          source={background}
         >
           <View
             style={{
@@ -75,9 +74,7 @@ export default class LoginScreen extends Component {
             }}
           >
             <Image
-              source={{
-                uri: "https://cdn.bimbimbikes.com/images/bike-lg.png?v1.1.18"
-              }}
+              source={logo}
               style={{ width: 200, height: 200 }}
             />
             <Item regular>
