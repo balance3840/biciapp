@@ -16,6 +16,7 @@ import axios from "axios";
 import bikeIcon from "../../assets/bike_icon.png";
 import { sanitizeString, getBadgeColor } from "../../helpers";
 import { MaterialIcons } from "@expo/vector-icons";
+import getDistance from "geolib/es/getDistance";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -82,6 +83,15 @@ class HomeScreen extends Component {
             latitute: points.lat && Number(points.lat) ? Number(points.lat) : 0,
             longitude: points.lng && Number(points.lng) ? Number(points.lng) : 0
           };
+          let currentLocation = {
+            lat: self.state.location.coords.latitude,
+            lon: self.state.location.coords.longitude
+          };
+          const distance = getDistance(currentLocation, {
+            lat: Number(points.lat),
+            lon: Number(points.lng)
+          });
+          stop.distance = distance;
         });
         self.setState({ stops });
       })
@@ -143,6 +153,19 @@ class HomeScreen extends Component {
       title: sanitizeString(stop.properties.name)
     });
   };
+
+  getDistanceUnit(distance) {
+    let unit = "m";
+    const kms = (distance / 1000).toFixed(2);
+    if(kms >= 1) {
+        distance = kms;
+        unit = "km";
+    }
+    return {
+        unit,
+        distance
+    }
+}
 
   renderStop() {
     const { currentStop } = this.state;
@@ -218,6 +241,16 @@ class HomeScreen extends Component {
                   {currentStop.properties.free}
                 </Text>
               </Badge>
+              <MaterialIcons
+                name="place"
+                style={{
+                  fontSize: 20,
+                  marginTop: 10,
+                  marginLeft: 20,
+                  color: "#5e92f3"
+                }}
+              />
+                <Text style={{ marginTop: 10 }}>{this.getDistanceUnit(currentStop.distance).distance} {this.getDistanceUnit(currentStop.distance).unit}</Text>
             </CardItem>
             <CardItem footer>
               <Body>
