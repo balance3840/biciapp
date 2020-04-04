@@ -23,7 +23,6 @@ class HomeScreen extends Component {
     this.state = {
       location: null,
       stops: null,
-      cardHeight: 170,
       currentStop: null,
       username: ''
     };
@@ -146,14 +145,10 @@ class HomeScreen extends Component {
   };
 
   renderStop() {
-    const { currentStop, cardHeight } = this.state;
+    const { currentStop } = this.state;
     return (
       <View
-        style={{ marginTop: -(cardHeight + 6) }}
-        onLayout={event => {
-          const { height } = event.nativeEvent.layout;
-          this.setState({ cardHeight: height });
-        }}
+        style={{ position: 'absolute', bottom: 6, width: '100%' }}
       >
         {currentStop && (
           <Card
