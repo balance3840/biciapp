@@ -62,7 +62,7 @@ class HomeScreen extends Component {
         }
       };
     }
-    this.setState({ location: { ...location, deltas } });
+    await this.setState({ location: { ...location, deltas } });
   };
 
   getStops = () => {
